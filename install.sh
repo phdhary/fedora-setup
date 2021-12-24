@@ -4,9 +4,9 @@ set -eu -o pipefail
 
 
 sudo -n true
-test $? -eq 0 || exit 1 "harus sudo lah bro"
+test $? -eq 0 || exit 1 "you need to be a root user"
 
-echo "===APP PENTING==="
+echo "===Important App==="
 echo "Updating apt repository"
 sudo apt-get update -y
 echo "Updating apt package to the latest"
