@@ -7,32 +7,35 @@ sudo -n true
 test $? -eq 0 || exit 1 "harus sudo lah bro"
 
 echo "===APP PENTING==="
-echo "update repository dulu"
+echo "Updating apt repository"
 sudo apt-get update -y
-echo "update package ke latest"
+echo "Updating apt package to the latest"
 sudo apt-get upgrade -y
 
-echo "lanjut nginstall yang ada di apt.list"
+echo "Installing app listed in apt.list"
 cat apt.list|xargs sudo apt-get -y install
 
-echo "lanjut lagi flatpak nih sesuai yang ada di flatpak.list"
+echo "Installing app listed in flatpak.list"
 cat flatpak.list|xargs sudo flatpak install -y
 
 echo "===GIT SETUP==="
-echo "Masukkan Username git:"
+echo "Enter Git Username:"
 read GITUSER;
 git config --global user.name "${GITUSER}"	
 
-echo "Masukkan Email git:"
+echo "Enter Git Email:"
 read GITEMAIL;
 git config --global user.email "${GITEMAIL}"
 
-echo "Oke git udah ter config"
+echo "Git is now configured"
 
 echo "===FLUTTER==="
+echo "Installing Flutter"
 git clone https://github.com/flutter/flutter.git -b stable development/flutter
-echo "export PATH="$PATH:`pwd`/development/flutter/bin" >> .zshrc
+
+echo 'export PATH="$PATH:`pwd`/development/flutter/bin"' >> .zshrc
 exec zsh
+
 flutter precache
 
 echo "===SDKMAN==="
@@ -41,5 +44,4 @@ source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk version
 sdk install java 17.0.1-open
 
-
-
+EOF
