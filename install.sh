@@ -16,7 +16,8 @@ echo "Installing app listed in apt.list"
 cat apt.list|xargs sudo apt-get -y install
 
 echo "Installing app listed in flatpak.list"
-cat flatpak.list|xargs sudo flatpak install -y
+FLATPAKAPPS=$(cat flatpak.list)
+flatpak install $FLATPAKAPPS
 
 echo "===GIT SETUP==="
 echo "Enter Git Username:"
