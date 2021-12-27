@@ -35,7 +35,7 @@ echo "Installing Flutter"
 git clone https://github.com/flutter/flutter.git -b stable development/flutter
 
 echo 'export PATH="$PATH:`pwd`/development/flutter/bin"' >> .zshrc
-exec zsh
+exec bash
 
 flutter precache
 
@@ -44,5 +44,9 @@ curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk version
 sdk install java 17.0.1-open
+
+echo "===ZSH==="
+sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 
 EOF
