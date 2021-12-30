@@ -1,6 +1,5 @@
 echo "APT DAN FLATPAK POST INSTALL"
 
-set -eu -o pipefail
 
 
 sudo -n true
@@ -15,9 +14,9 @@ sudo apt-get upgrade -y
 echo "Installing app listed in apt.list"
 cat apt.list|xargs sudo apt-get -y install
 
-echo "Installing app listed in flatpak.list"
-FLATPAKAPPS=$(cat flatpak.list)
-flatpak install $FLATPAKAPPS
+#echo "Installing app listed in flatpak.list"
+#FLATPAKAPPS=$(cat flatpak.list)
+#flatpak install $FLATPAKAPPS
 
 echo "===GIT SETUP==="
 echo "Enter Git Username:"
@@ -28,16 +27,22 @@ echo "Enter Git Email:"
 read GITEMAIL;
 git config --global user.email "${GITEMAIL}"
 
+ssh-keygen -t ed25519 -C "${GITEMAIL}"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+echo "copy text below to github ssh"
+cat ~/.ssh/id_ed25519.pub
+
 echo "Git is now configured"
 
 echo "===FLUTTER==="
 echo "Installing Flutter"
-git clone https://github.com/flutter/flutter.git -b stable development/flutter
-
-echo 'export PATH="$PATH:`pwd`/development/flutter/bin"' >> .zshrc
-exec bash
-
+sudo snap install flutter --classic
 flutter precache
+echo "===ANDROID STUDIO==="
+echo "Installing Android Studio"
+sudo snap install android-studio --classic
+
 
 echo "===SDKMAN==="
 curl -s "https://get.sdkman.io" | bash
